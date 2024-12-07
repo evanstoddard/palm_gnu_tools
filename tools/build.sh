@@ -16,9 +16,9 @@ function build() {
     --disable-nls \
     --build=i686-linux-gnu \
     --host=i686-linux-gnu \
-    --prefix=/usr \
-    --infodir=/usr/share/info \
-    --mandir=/usr/share/man \
+    --prefix=/opt/palm_gnu_tools \
+    --infodir=/opt/palm_gnu_tools/share/info \
+    --mandir=/opt/palm_gnu_tools/share/man \
     --with-palmdev-prefix=/opt/palmdev
 
   # We use -w to suppress compiler warnings. Otherwise, the volume of warnings
@@ -44,14 +44,14 @@ function install() {
   make MAKEINFO=true DESTDIR="$dest_dir" install
 
   cd "$dest_dir"
-  rmdir ./usr/include  # empty dir
+  rmdir ./opt/palm_gnu_tools/include  # empty dir
   # Delete files installed by gcc, binutils etc that conflict with host system
   # packages.
-  rm ./usr/lib/*.a
-  rm ./usr/share/info/*
-  rm -r ./usr/share/man/man7
+  rm ./opt/palm_gnu_tools/lib/*.a
+  rm ./opt/palm_gnu_tools/share/info/*
+  rm -r ./opt/palm_gnu_tools/share/man/man7
   (
-    cd ./usr/share/man/man1 &&
+    cd ./opt/palm_gnu_tools/share/man/man1 &&
     for f in *; do
       if [[ "$f" != arm-palmos-* ]] && [[ "$f" != m68k-palmos-* ]]; then
         rm $f
@@ -59,7 +59,7 @@ function install() {
     done
   )
   # Reinstall prc-tools's own docs.
-  make -C "$base_dir/build/doc" DESTDIR="$dest_dir" install
+  # make -C "$base_dir/build/doc" DESTDIR="$dest_dir" install
 }
 
 set -ex
