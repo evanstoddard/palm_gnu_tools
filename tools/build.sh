@@ -31,7 +31,7 @@ function build() {
   # and it's much easier to just revert back to the old GCC behavior with
   # -fcommon instead.
   # See also: https://gcc.gnu.org/gcc-10/porting_to.html.
-  CFLAGS="-w -O2 -fcommon" make -j$(nproc)
+  CFLAGS="-w -O2 -fcommon" make
 }
 
 function install() {
@@ -41,7 +41,7 @@ function install() {
   #
   # MAKEINFO=true is a workaround for
   # https://github.com/jichu4n/prc-tools-remix/issues/4 .
-  make -j$(nproc) MAKEINFO=true DESTDIR="$dest_dir" install
+  make MAKEINFO=true DESTDIR="$dest_dir" install
 
   cd "$dest_dir"
   rmdir ./usr/include  # empty dir
@@ -59,7 +59,7 @@ function install() {
     done
   )
   # Reinstall prc-tools's own docs.
-  make -j$(nproc) -C "$base_dir/build/doc" DESTDIR="$dest_dir" install
+  make -C "$base_dir/build/doc" DESTDIR="$dest_dir" install
 }
 
 set -ex
